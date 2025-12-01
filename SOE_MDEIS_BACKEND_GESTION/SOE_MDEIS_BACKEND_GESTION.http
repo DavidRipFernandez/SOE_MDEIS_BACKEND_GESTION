@@ -1,0 +1,6 @@
+@SOE_MDEIS_BACKEND_GESTION_HostAddress = http://localhost:5262
+
+GET {{SOE_MDEIS_BACKEND_GESTION_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
