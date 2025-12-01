@@ -34,12 +34,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set image name
-        id: vars
-        run: |
-          IMAGE="${{ secrets.DOCKERHUB_USERNAME }}/soe-mdeis-backend"
-          echo "image=$IMAGE" >> $GITHUB_OUTPUT
-
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:latest
+            ${{ secrets.DOCKERHUB_REPOSITORY }}:${{ github.sha }}
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
@@ -62,7 +64,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/soe-mdeis-backend:latest
+            docker pull ${{ secrets.DOCKERHUB_REPOSITORY }}:latest
 
             docker stop soe-mdeis-backend || true
             docker rm soe-mdeis-backend || true
