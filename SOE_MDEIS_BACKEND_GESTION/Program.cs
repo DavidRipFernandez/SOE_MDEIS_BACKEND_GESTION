@@ -7,6 +7,19 @@ using SOE_MDEIS_BACKEND_GESTION.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS
+var allowedOrigin = "http://localhost:5173";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendCors", policy =>
+    {
+        policy.WithOrigins(allowedOrigin)
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -36,7 +49,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseHttpsRedirection();
+
+app.UseCors("FrontendCors");
 
 app.UseAuthorization();
 
