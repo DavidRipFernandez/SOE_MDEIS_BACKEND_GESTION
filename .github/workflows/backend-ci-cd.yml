@@ -2,7 +2,7 @@ name: Backend CI/CD
 
 on:
   push:
-    branches: [ Release ]   # 🔴 IMPORTANTE: esta es la rama que disparará el pipeline
+    branches: [ Release ]   
   workflow_dispatch:
 
 jobs:
